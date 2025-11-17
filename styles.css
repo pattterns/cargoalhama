@@ -581,8 +581,6 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
 .clients-marquee {
     background-color: var(--black-deep);
     padding: var(--spacing-lg) 0;
-    border-top: 1px solid var(--gray-medium-dark);
-    border-bottom: 1px solid var(--gray-medium-dark);
     overflow: hidden;
 }
 
@@ -901,7 +899,7 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
 
 .contact {
     padding: var(--spacing-xl) 0;
-    background-color: var(--gray-ultra-light);
+    background-color: var(--black-deep);
 }
 
 .contact-wrapper {
