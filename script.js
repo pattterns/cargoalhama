@@ -191,36 +191,28 @@ function handleHeroRelumeScroll() {
 // ============================================
 function handleHeroParallax() {
     const heroImage = document.querySelector('.hero-bg-image');
-    if (!heroImage) return;
-    
-    const scrollY = window.scrollY || window.pageYOffset;
     const heroSection = document.querySelector('.hero');
-    if (!heroSection) return;
+    
+    if (!heroImage || !heroSection) return;
     
     const heroRect = heroSection.getBoundingClientRect();
-    const heroTop = scrollY + heroRect.top;
-    const heroHeight = heroRect.height;
-    const windowHeight = window.innerHeight;
     
-    // Solo aplicar parallax cuando el hero está visible
-    if (heroRect.bottom > 0 && heroRect.top < windowHeight) {
-        // Calcular el desplazamiento basado en el scroll
-        // Cuando scrollY = heroTop, la imagen está en su posición inicial
-        // A medida que haces scroll, la imagen se mueve más lento que el scroll
+    // Solo aplicar parallax cuando el hero está visible en viewport
+    if (heroRect.bottom > 0 && heroRect.top < window.innerHeight) {
+        // Calcular el progreso del scroll dentro de la sección hero
+        // Cuando top del hero = 0, progreso = 0
+        // Cuando bottom del hero = 0, progreso = 1
+        const scrollRange = heroRect.height + window.innerHeight;
         const scrollProgress = Math.max(0, Math.min(1, 
-            (scrollY - heroTop + windowHeight) / (heroHeight + windowHeight)
+            (window.innerHeight - heroRect.top) / scrollRange
         ));
         
-        // Mover la imagen hacia arriba mientras haces scroll (efecto parallax)
-        // El factor 0.5 hace que la imagen se mueva a la mitad de velocidad del scroll
-        const parallaxOffset = scrollProgress * 100; // Ajusta este valor para más/menos efecto
-        heroImage.style.transform = `translateY(${parallaxOffset}px)`;
-    } else if (heroRect.top >= windowHeight) {
-        // Hero aún no es visible
-        heroImage.style.transform = 'translateY(0)';
-    } else {
-        // Hero ya pasó completamente
-        heroImage.style.transform = 'translateY(100px)';
+        // Aplicar parallax: la imagen se mueve hacia abajo más lento que el scroll
+        // Factor negativo porque queremos que se mueva hacia arriba más lento
+        const parallaxDistance = 50; // 50px de movimiento máximo
+        const offset = scrollProgress * parallaxDistance;
+        
+        heroImage.style.transform = `translateY(${offset}px)`;
     }
 }
 
@@ -395,6 +387,62 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 });
+
+// ============================================
+// CURSOR PERSONALIZADO CON HOVER
+// ============================================
+(function() {
+    // Crear cursor personalizado
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+    
+    // Seguir el mouse con suavizado
+    let cursorX = 0;
+    let cursorY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+    });
+    
+    function animateCursor() {
+        // Suavizado del cursor (lerp)
+        currentX += (cursorX - currentX) * 0.2;
+        currentY += (cursorY - currentY) * 0.2;
+        
+        cursor.style.left = currentX + 'px';
+        cursor.style.top = currentY + 'px';
+        
+        requestAnimationFrame(animateCursor);
+    }
+    
+    animateCursor();
+    
+    // Detectar elementos interactivos para hover
+    function updateInteractiveElements() {
+        const interactiveElements = document.querySelectorAll('a, button, input, textarea, select, [href], [role="button"]');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-hover');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-hover');
+            });
+        });
+    }
+    
+    // Ejecutar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateInteractiveElements);
+    } else {
+        updateInteractiveElements();
+    }
+})();
 
 // ============================================
 // VALIDACIÓN DE FORMULARIO EN TIEMPO REAL
