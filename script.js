@@ -187,32 +187,65 @@ function handleHeroRelumeScroll() {
 }
 
 // ============================================
-// PARALLAX PARA IMAGEN DEL HERO
+// PARALLAX PARA IMAGEN Y TEXTO DEL HERO
+// Efecto sutil y elegante con movimiento lento y ligera escala
 // ============================================
 function handleHeroParallax() {
     const heroImage = document.querySelector('.hero-bg-image');
+    const heroTextOverlay = document.querySelector('.hero-text-overlay');
     const heroSection = document.querySelector('.hero');
     
     if (!heroImage || !heroSection) return;
     
+    const scrollY = window.scrollY || window.pageYOffset;
     const heroRect = heroSection.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
     
     // Solo aplicar parallax cuando el hero está visible en viewport
-    if (heroRect.bottom > 0 && heroRect.top < window.innerHeight) {
+    if (heroRect.bottom > 0 && heroRect.top < windowHeight) {
         // Calcular el progreso del scroll dentro de la sección hero
-        // Cuando top del hero = 0, progreso = 0
-        // Cuando bottom del hero = 0, progreso = 1
-        const scrollRange = heroRect.height + window.innerHeight;
+        const heroTop = heroRect.top;
+        const heroHeight = heroRect.height;
+        
+        // Calcular progreso basado en la posición del hero en el viewport
+        // Cuando heroTop = windowHeight, el hero está justo entrando (progreso = 0)
+        // Cuando heroTop = -heroHeight, el hero sale completamente (progreso = 1)
+        const scrollRange = heroHeight + windowHeight;
         const scrollProgress = Math.max(0, Math.min(1, 
-            (window.innerHeight - heroRect.top) / scrollRange
+            (windowHeight - heroTop) / scrollRange
         ));
         
-        // Aplicar parallax: la imagen se mueve hacia abajo más lento que el scroll
-        // Factor negativo porque queremos que se mueva hacia arriba más lento
-        const parallaxDistance = 50; // 50px de movimiento máximo
-        const offset = scrollProgress * parallaxDistance;
+        // Easing suave (smoothstep)
+        const easedProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress);
         
-        heroImage.style.transform = `translateY(${offset}px)`;
+        // Parallax: la imagen se mueve más lento que el scroll (hacia abajo)
+        // La imagen se desplaza hacia abajo más lento que el scroll normal
+        const parallaxSpeed = 0.4; // 40% de la velocidad del scroll
+        const parallaxOffset = scrollY * parallaxSpeed;
+        
+        // Escala sutil: la imagen crece ligeramente al hacer scroll
+        const scaleStart = 1.0;
+        const scaleEnd = 1.1; // 10% de aumento
+        const scale = scaleStart + (scaleEnd - scaleStart) * easedProgress;
+        
+        // Aplicar transformaciones a la imagen (positivo para mover hacia abajo)
+        heroImage.style.transform = `translateY(${parallaxOffset}px) scale(${scale})`;
+        
+        // Efecto parallax para el texto: se mueve hacia abajo
+        if (heroTextOverlay) {
+            // El texto se mueve más rápido que la imagen para crear profundidad
+            const textParallaxSpeed = 0.6; // 60% de la velocidad del scroll
+            const textParallaxOffset = scrollY * textParallaxSpeed;
+            
+            // Aplicar transformaciones al texto (solo movimiento, sin cambio de opacidad)
+            heroTextOverlay.style.transform = `translateY(${textParallaxOffset}px)`;
+        }
+    } else {
+        // Resetear cuando el hero no es visible
+        heroImage.style.transform = 'translateY(0) scale(1)';
+        if (heroTextOverlay) {
+            heroTextOverlay.style.transform = 'translateY(0)';
+        }
     }
 }
 

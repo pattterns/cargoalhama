@@ -18,10 +18,28 @@
                 <div class="logo">
                     <h1>CARGOALHAMA</h1>
                 </div>
-                <nav class="header-nav">
+                
+                <!-- Botón Hamburguesa -->
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <nav class="header-nav" id="navMenu">
                     <a href="#relume" class="header-link">Sobre Nosotros</a>
                     <a href="#servicios" class="header-link">Servicios</a>
-                    <a href="#contacto" class="btn btn-normal">Contacto</a>
+                    <a href="#contacto" class="header-link mobile-only">Contacto</a>
+                    
+                    <!-- Info de contacto en menú móvil -->
+                    <div class="mobile-contact-info">
+                        <p>Av. Holanda, 22<br>Alhama de Murcia</p>
+                        <p><a href="tel:968630354">968 630 354</a></p>
+                        <p><a href="mailto:cargoalhama@cargoalhama.com">cargoalhama@cargoalhama.com</a></p>
+                        <p><strong>Horario:</strong><br>Lun – Vi: 8:00 – 13:30<br>16:00 – 19:00h</p>
+                    </div>
+
+                    <a href="#contacto" class="btn btn-normal desktop-only">Contacto</a>
                 </nav>
             </div>
         </div>
@@ -208,6 +226,10 @@
     <!-- Sección Contacto -->
     <section id="contacto" class="contact">
         <div class="container">
+            <div class="contact-header">
+                <h2 class="section-title contact-title">Hablemos de tu proyecto</h2>
+                <p class="section-description contact-desc">¿Necesitas un presupuesto o tienes alguna duda? Estamos aquí para ayudarte.</p>
+            </div>
             <div class="contact-wrapper">
                 <div class="contact-form-wrapper">
                     <form class="contact-form" id="contactForm">
@@ -229,7 +251,7 @@
                             <div class="form-column-right">
                                 <div class="form-group">
                                     <label for="message">Mensaje *</label>
-                                    <textarea id="message" name="message" rows="8" required></textarea>
+                                    <textarea id="message" name="message" rows="4" required placeholder="Cuéntanos los detalles de tu carga, ruta o necesidades logísticas..."></textarea>
                                 </div>
                             </div>
                         </div>
