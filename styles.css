@@ -310,6 +310,28 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     width: 100%;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition-fast);
+}
+
+.logo-img:hover {
+    opacity: 0.8;
+}
+
 .header-nav {
     display: flex;
     align-items: center;
@@ -1126,6 +1148,25 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     border-top: 1px solid var(--gray-medium-dark);
 }
 
+.footer-banner {
+    max-width: 800px;
+    width: 100%;
+    margin: var(--spacing-lg) auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.footer-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(100%) brightness(0.8) opacity(0.7);
+}
+
 .footer-contact-info {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1190,6 +1231,41 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     font-family: 'DM Mono', monospace;
 }
 
+.footer-ocelot {
+    margin: var(--spacing-sm) 0 0;
+    text-align: center;
+}
+
+.footer-ocelot-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    font-family: 'DM Mono', monospace;
+    transition: var(--transition-fast);
+}
+
+.footer-ocelot-link:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-ocelot-logo {
+    width: 20px;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+    filter: grayscale(100%) brightness(0) invert(1) opacity(0.5);
+    transition: var(--transition-fast);
+}
+
+.footer-ocelot-link:hover .footer-ocelot-logo {
+    filter: grayscale(100%) brightness(0) invert(1) opacity(0.7);
+}
+
 /* ============================================
    BADGES Y ETIQUETAS
    ============================================ */
@@ -1209,6 +1285,14 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
 
 .badge-red {
     background-color: var(--red-accent);
+}
+
+/* ============================================
+   MOBILE CONTACT INFO - OCULTO POR DEFECTO
+   ============================================ */
+
+.mobile-contact-info {
+    display: none;
 }
 
 /* ============================================
@@ -1287,6 +1371,16 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
         display: none !important;
     }
 
+    .footer-banner {
+        max-width: 90%;
+        margin: var(--spacing-md) auto;
+    }
+
+    .footer-banner-img {
+        max-height: 150px;
+        object-fit: contain;
+    }
+
     .footer-contact-info {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
@@ -1294,6 +1388,10 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     
     .menu-toggle {
         display: flex;
+    }
+    
+    .logo-img {
+        height: 40px;
     }
 
     /* Menú móvil a pantalla completa */
