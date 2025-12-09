@@ -1,0 +1,17 @@
+{
+  "name": "cargoalhama",
+  "version": "1.0.0",
+  "description": "Sitio web de Cargo Alhama con 11ty y Decap CMS",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "dev": "eleventy --serve --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

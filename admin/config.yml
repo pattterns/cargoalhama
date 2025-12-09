@@ -1,0 +1,69 @@
+backend:
+  name: github
+  repo: pattterns/cargoalhama
+  branch: main
+  auth_endpoint: api/auth
+
+media_folder: "imagenes/uploads"
+public_folder: "/imagenes/uploads"
+
+collections:
+  # Colección: Datos del sitio (aparece SOLO una entrada editable)
+  - name: "site"
+    label: "Configuración del Sitio"
+    files:
+      - file: "_data/site.json"
+        label: "Info Principal"
+        name: "site_config"
+        fields:
+          - { label: "Título del Sitio", name: "title", widget: "string" }
+          - { label: "Descripción", name: "description", widget: "text" }
+          - { label: "URL", name: "url", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Teléfono", name: "phone", widget: "string" }
+          - { label: "Dirección", name: "address", widget: "string" }
+          - { label: "Horario", name: "schedule", widget: "string" }
+          - label: "Redes Sociales"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+              - { label: "Twitter", name: "twitter", widget: "string", required: false }
+
+  # Colección: Página principal (si quieres que edite el contenido del index)
+  - name: "pages"
+    label: "Páginas"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "URL", name: "permalink", widget: "string", pattern: ["^/.*", "URL debe empezar con /"] }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+
+  # Colección: Blog (si tienes)
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Descripción", name: "description", widget: "text" }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Autor", name: "author", widget: "string" }
+      - { label: "Imagen", name: "image", widget: "image" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
+
+  # Colección: Equipo (si tienes página de equipo)
+  - name: "team"
+    label: "Equipo"
+    folder: "content/team"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nombre", name: "name", widget: "string" }
+      - { label: "Cargo", name: "role", widget: "string" }
+      - { label: "Bio", name: "bio", widget: "text" }
+      - { label: "Foto", name: "photo", widget: "image" }
+      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }

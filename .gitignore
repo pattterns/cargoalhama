@@ -25,6 +25,9 @@ node_modules/
 package-lock.json
 yarn.lock
 
+# Output de 11ty
+_site/
+
 # Archivos temporales
 *.tmp
 *.temp
