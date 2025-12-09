@@ -6,12 +6,12 @@ media_folder: "imagenes/uploads"
 public_folder: "/imagenes/uploads"
 
 collections:
-  # Colección: Datos del sitio (aparece SOLO una entrada editable)
+  # Colección: Datos del sitio (información de contacto)
   - name: "site"
     label: "Configuración del Sitio"
     files:
       - file: "_data/site.json"
-        label: "Info Principal"
+        label: "Información de Contacto"
         name: "site_config"
         fields:
           - { label: "Título del Sitio", name: "title", widget: "string" }
@@ -28,40 +28,87 @@ collections:
               - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
               - { label: "Twitter", name: "twitter", widget: "string", required: false }
 
-  # Colección: Página principal (si quieres que edite el contenido del index)
-  - name: "pages"
-    label: "Páginas"
-    folder: "content/pages"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Título", name: "title", widget: "string" }
-      - { label: "URL", name: "permalink", widget: "string", pattern: ["^/.*", "URL debe empezar con /"] }
-      - { label: "Contenido", name: "body", widget: "markdown" }
+  # Colección: Hero Section
+  - name: "hero"
+    label: "Sección Hero"
+    files:
+      - file: "_data/hero.json"
+        label: "Hero - Texto Principal"
+        name: "hero_content"
+        fields:
+          - { label: "Texto Principal", name: "text", widget: "text" }
+          - { label: "Imagen de Fondo", name: "image", widget: "image", required: false }
 
-  # Colección: Blog (si tienes)
-  - name: "blog"
-    label: "Blog"
-    folder: "content/blog"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Título", name: "title", widget: "string" }
-      - { label: "Descripción", name: "description", widget: "text" }
-      - { label: "Fecha", name: "date", widget: "datetime" }
-      - { label: "Autor", name: "author", widget: "string" }
-      - { label: "Imagen", name: "image", widget: "image" }
-      - { label: "Contenido", name: "body", widget: "markdown" }
+  # Colección: Sobre Nosotros
+  - name: "about"
+    label: "Sobre Nosotros"
+    files:
+      - file: "_data/about.json"
+        label: "Contenido Sobre Nosotros"
+        name: "about_content"
+        fields:
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Texto", name: "text", widget: "text" }
 
-  # Colección: Equipo (si tienes página de equipo)
-  - name: "team"
-    label: "Equipo"
-    folder: "content/team"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Nombre", name: "name", widget: "string" }
-      - { label: "Cargo", name: "role", widget: "string" }
-      - { label: "Bio", name: "bio", widget: "text" }
-      - { label: "Foto", name: "photo", widget: "image" }
-      - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+  # Colección: Servicios
+  - name: "services"
+    label: "Servicios"
+    files:
+      - file: "_data/services.json"
+        label: "Lista de Servicios"
+        name: "services_list"
+        fields:
+          - label: "Servicios"
+            name: "services"
+            widget: "list"
+            fields:
+              - { label: "Número", name: "number", widget: "string" }
+              - { label: "Título", name: "title", widget: "string" }
+              - { label: "Descripción", name: "description", widget: "text" }
+              - { label: "Imagen", name: "image", widget: "image", required: false }
+              - { label: "Texto Alternativo", name: "alt", widget: "string", required: false }
+
+  # Colección: Instalaciones
+  - name: "installations"
+    label: "Instalaciones"
+    files:
+      - file: "_data/installations.json"
+        label: "Galería de Instalaciones"
+        name: "installations_content"
+        fields:
+          - { label: "Título", name: "title", widget: "string" }
+          - { label: "Descripción", name: "description", widget: "text" }
+          - label: "Galería"
+            name: "gallery"
+            widget: "list"
+            fields:
+              - { label: "Imagen", name: "image", widget: "image" }
+              - { label: "Texto Alternativo", name: "alt", widget: "string" }
+              - { label: "Descripción", name: "caption", widget: "string" }
+
+  # Colección: Contacto
+  - name: "contact"
+    label: "Contacto"
+    files:
+      - file: "_data/contact.json"
+        label: "Sección de Contacto"
+        name: "contact_content"
+        fields:
+          - { label: "Título", name: "title", widget: "string" }
+          - { label: "Descripción", name: "description", widget: "text" }
+          - { label: "Placeholder del Formulario", name: "formPlaceholder", widget: "string" }
+
+  # Colección: Clientes (opcional, para editar logos)
+  - name: "clients"
+    label: "Clientes"
+    files:
+      - file: "_data/clients.json"
+        label: "Lista de Clientes"
+        name: "clients_list"
+        fields:
+          - label: "Clientes"
+            name: "clients"
+            widget: "list"
+            fields:
+              - { label: "Nombre", name: "name", widget: "string" }
+              - { label: "Logo", name: "image", widget: "image" }

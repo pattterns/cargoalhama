@@ -7,9 +7,9 @@ permalink: /
 <!-- Hero Section -->
 <section id="inicio" class="hero">
     <div class="hero-image-wrapper">
-        <img src="/imagenes/internacional.png" alt="Cargo Alhama" class="hero-bg-image">
+        <img src="{{ hero.image }}" alt="Cargo Alhama" class="hero-bg-image">
         <div class="hero-text-overlay">
-            <p class="hero-overlay-text">{{ site.description }}</p>
+            <p class="hero-overlay-text">{{ hero.text }}</p>
         </div>
     </div>
 </section>
@@ -18,55 +18,17 @@ permalink: /
 <section class="clients-marquee">
     <div class="clients-marquee-wrapper">
         <div class="clients-marquee-track">
+            {% for client in clients.clients %}
             <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/carrefour.png" alt="Carrefour">
+                <img src="{{ client.image }}" alt="{{ client.name }}">
             </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/eci.png" alt="ECI">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/ikea.png" alt="IKEA">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/kiabi.png" alt="Kiabi">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/mercadona.png" alt="Mercadona">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/estella levante bueno.png" alt="Estella Levante">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/mr organica bueno.png" alt="Mr Orgánica">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/toñifruit.png" alt="Toñifruit">
-            </div>
+            {% endfor %}
             <!-- Duplicados para efecto infinito -->
+            {% for client in clients.clients %}
             <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/carrefour.png" alt="Carrefour">
+                <img src="{{ client.image }}" alt="{{ client.name }}">
             </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/eci.png" alt="ECI">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/ikea.png" alt="IKEA">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/kiabi.png" alt="Kiabi">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/mercadona.png" alt="Mercadona">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/estella levante bueno.png" alt="Estella Levante">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/mr organica bueno.png" alt="Mr Orgánica">
-            </div>
-            <div class="clients-marquee-item">
-                <img src="/imagenes/clientes/toñifruit.png" alt="Toñifruit">
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -74,8 +36,8 @@ permalink: /
 <!-- Sección Relume / Sobre Nosotros -->
 <section id="relume" class="relume-section">
     <div class="container relume-container">
-        <p class="relume-tagline">Sobre Nosotros</p>
-        <p class="relume-text">En Cargoalhama llevamos más de 15 años siendo un socio estratégico en el transporte nacional e internacional, aportando experiencia, flexibilidad y un trato cercano. Nuestro objetivo: que tu mercancía llegue siempre a tiempo y en perfectas condiciones.</p>
+        <p class="relume-tagline">{{ about.tagline }}</p>
+        <p class="relume-text">{{ about.text }}</p>
         <div class="relume-actions">
             <a href="#contacto" class="btn btn-normal-dark">Contactar</a>
             <a href="#servicios" class="btn btn-link-dark">Ver Servicios
@@ -91,77 +53,43 @@ permalink: /
 <section id="servicios" class="services">
     <div class="container">
         <div class="services-grid">
-            <!-- Columna Izquierda - Servicio 01 -->
-            <div class="service-card service-numbered" id="transporte-nacional">
+            <!-- Primeros dos servicios -->
+            {% for service in services.services %}
+            {% if loop.index <= 2 %}
+            <div class="service-card service-numbered" id="servicio-{{ service.number }}">
                 <div class="service-header-numbered">
-                    <div class="service-number">01</div>
-                    <h3>Transporte Nacional</h3>
+                    <div class="service-number">{{ service.number }}</div>
+                    <h3>{{ service.title }}</h3>
                 </div>
                 <div class="service-content-numbered">
-                    <p>Más de 15 años llevamos garantizando rutas seguras en todo España, optimizando tiempos y adaptándonos a todo tipo de cargas.</p>
+                    <p>{{ service.description }}</p>
                 </div>
                 <div class="service-image-numbered">
-                    <img src="/imagenes/nacional.png" alt="Transporte Nacional">
+                    <img src="{{ service.image }}" alt="{{ service.alt }}">
                 </div>
             </div>
-
-            <!-- Columna Derecha - Servicio 02 -->
-            <div class="service-card service-numbered" id="transporte-internacional">
-                <div class="service-header-numbered">
-                    <div class="service-number">02</div>
-                    <h3>Transporte Internacional</h3>
-                </div>
-                <div class="service-content-numbered">
-                    <p>Experiencia en operaciones logísticas nacionales y europeas, con capacidad para coordinar envíos a distintos destinos cuando el proyecto lo requiere.</p>
-                </div>
-                <div class="service-image-numbered">
-                    <img src="/imagenes/internacional.png" alt="Transporte Internacional">
-                </div>
-            </div>
+            {% endif %}
+            {% endfor %}
         </div>
         
         <div class="services-grid-secondary">
-            <!-- Servicio 03 -->
+            <!-- Resto de servicios -->
+            {% for service in services.services %}
+            {% if loop.index > 2 %}
             <div class="service-card service-numbered">
                 <div class="service-header-numbered">
-                    <div class="service-number">03</div>
-                    <h3>Almacenaje Propio</h3>
+                    <div class="service-number">{{ service.number }}</div>
+                    <h3>{{ service.title }}</h3>
                 </div>
                 <div class="service-content-numbered">
-                    <p>Nuestras instalaciones están equipadas para mantener la seguridad y flexibilidad que tus mercancías necesitan. Control, inventario y disponibilidad para tus proyectos.</p>
+                    <p>{{ service.description }}</p>
                 </div>
                 <div class="service-image-numbered">
-                    <img src="/imagenes/almacenaje.png" alt="Almacenaje">
+                    <img src="{{ service.image }}" alt="{{ service.alt }}">
                 </div>
             </div>
-
-            <!-- Servicio 04 -->
-            <div class="service-card service-numbered">
-                <div class="service-header-numbered">
-                    <div class="service-number">04</div>
-                    <h3>Flota de Camiones</h3>
-                </div>
-                <div class="service-content-numbered">
-                    <p>Vehículos modernos, revisados y preparados para cualquier desafío logístico. Tecnología y mantenimiento para máxima fiabilidad.</p>
-                </div>
-                <div class="service-image-numbered">
-                    <img src="/imagenes/flota.png" alt="Flota">
-                </div>
-            </div>
-
-            <!-- Servicio 05 -->
-            <div class="service-card service-numbered">
-                <div class="service-header-numbered">
-                    <div class="service-number">05</div>
-                    <h3>Red de Colaboradores</h3>
-                </div>
-                <div class="service-content-numbered">
-                    <p>Una red sólida por toda España que nos permite dar cobertura donde y cuando la necesitas.</p>
-                </div>
-                <div class="service-image-numbered">
-                    <img src="/imagenes/warehouse1.png" alt="Colaboradores">
-                </div>
-            </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -169,33 +97,17 @@ permalink: /
 <!-- Sección Instalaciones -->
 <section id="instalaciones" class="installations">
     <div class="container">
-        <h2 class="section-title">INSTALACIONES</h2>
-        <p class="section-description">Conoce nuestras modernas instalaciones y flota de vehículos</p>
+        <h2 class="section-title">{{ installations.title }}</h2>
+        <p class="section-description">{{ installations.description }}</p>
         <div class="gallery-grid">
+            {% for item in installations.gallery %}
             <div class="gallery-item">
-                <img src="/imagenes/warehouse2.png" alt="Instalaciones Cargo Alhama" loading="lazy">
+                <img src="{{ item.image }}" alt="{{ item.alt }}" loading="lazy">
                 <div class="gallery-overlay">
-                    <span>Vista de nuestras instalaciones</span>
+                    <span>{{ item.caption }}</span>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="/imagenes/warehouse1.png" alt="Flota de camiones" loading="lazy">
-                <div class="gallery-overlay">
-                    <span>Nuestra flota de camiones</span>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="/imagenes/warehouse3.png" alt="Almacenes" loading="lazy">
-                <div class="gallery-overlay">
-                    <span>Almacenes propios</span>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="/imagenes/warehouse4.png" alt="Sede Cargo Alhama" loading="lazy">
-                <div class="gallery-overlay">
-                    <span>Sede principal</span>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -204,8 +116,8 @@ permalink: /
 <section id="contacto" class="contact">
     <div class="container">
         <div class="contact-header">
-            <h2 class="section-title contact-title">Hablemos de tu proyecto</h2>
-            <p class="section-description contact-desc">¿Necesitas un presupuesto o tienes alguna duda? Estamos aquí para ayudarte.</p>
+            <h2 class="section-title contact-title">{{ contact.title }}</h2>
+            <p class="section-description contact-desc">{{ contact.description }}</p>
         </div>
         <div class="contact-wrapper">
             <div class="contact-form-wrapper">
@@ -228,7 +140,7 @@ permalink: /
                         <div class="form-column-right">
                             <div class="form-group">
                                 <label for="message">Mensaje *</label>
-                                <textarea id="message" name="message" rows="4" required placeholder="Cuéntanos los detalles de tu carga, ruta o necesidades logísticas..."></textarea>
+                                <textarea id="message" name="message" rows="4" required placeholder="{{ contact.formPlaceholder }}"></textarea>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,36 @@
+{
+  "clients": [
+    {
+      "name": "Carrefour",
+      "image": "/imagenes/clientes/carrefour.png"
+    },
+    {
+      "name": "ECI",
+      "image": "/imagenes/clientes/eci.png"
+    },
+    {
+      "name": "IKEA",
+      "image": "/imagenes/clientes/ikea.png"
+    },
+    {
+      "name": "Kiabi",
+      "image": "/imagenes/clientes/kiabi.png"
+    },
+    {
+      "name": "Mercadona",
+      "image": "/imagenes/clientes/mercadona.png"
+    },
+    {
+      "name": "Estella Levante",
+      "image": "/imagenes/clientes/estella levante bueno.png"
+    },
+    {
+      "name": "Mr Orgánica",
+      "image": "/imagenes/clientes/mr organica bueno.png"
+    },
+    {
+      "name": "Toñifruit",
+      "image": "/imagenes/clientes/toñifruit.png"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "services": [
+    {
+      "number": "01",
+      "title": "Transporte Nacional",
+      "description": "Más de 15 años llevamos garantizando rutas seguras en todo España, optimizando tiempos y adaptándonos a todo tipo de cargas.",
+      "image": "/imagenes/nacional.png",
+      "alt": "Transporte Nacional"
+    },
+    {
+      "number": "02",
+      "title": "Transporte Internacional",
+      "description": "Experiencia en operaciones logísticas nacionales y europeas, con capacidad para coordinar envíos a distintos destinos cuando el proyecto lo requiere.",
+      "image": "/imagenes/internacional.png",
+      "alt": "Transporte Internacional"
+    },
+    {
+      "number": "03",
+      "title": "Almacenaje Propio",
+      "description": "Nuestras instalaciones están equipadas para mantener la seguridad y flexibilidad que tus mercancías necesitan. Control, inventario y disponibilidad para tus proyectos.",
+      "image": "/imagenes/almacenaje.png",
+      "alt": "Almacenaje"
+    },
+    {
+      "number": "04",
+      "title": "Flota de Camiones",
+      "description": "Vehículos modernos, revisados y preparados para cualquier desafío logístico. Tecnología y mantenimiento para máxima fiabilidad.",
+      "image": "/imagenes/flota.png",
+      "alt": "Flota"
+    },
+    {
+      "number": "05",
+      "title": "Red de Colaboradores",
+      "description": "Una red sólida por toda España que nos permite dar cobertura donde y cuando la necesitas.",
+      "image": "/imagenes/warehouse1.png",
+      "alt": "Colaboradores"
+    }
+  ]
+}

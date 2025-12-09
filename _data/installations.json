@@ -1,0 +1,26 @@
+{
+  "title": "INSTALACIONES",
+  "description": "Conoce nuestras modernas instalaciones y flota de vehículos",
+  "gallery": [
+    {
+      "image": "/imagenes/warehouse2.png",
+      "alt": "Instalaciones Cargo Alhama",
+      "caption": "Vista de nuestras instalaciones"
+    },
+    {
+      "image": "/imagenes/warehouse1.png",
+      "alt": "Flota de camiones",
+      "caption": "Nuestra flota de camiones"
+    },
+    {
+      "image": "/imagenes/warehouse3.png",
+      "alt": "Almacenes",
+      "caption": "Almacenes propios"
+    },
+    {
+      "image": "/imagenes/warehouse4.png",
+      "alt": "Sede Cargo Alhama",
+      "caption": "Sede principal"
+    }
+  ]
+}
