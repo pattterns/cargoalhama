@@ -898,7 +898,7 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     aspect-ratio: 4/3;
     border: 2px solid var(--gray-very-light);
     transition: var(--transition-base);
-    cursor: pointer;
+    cursor: default;
     background: var(--gray-light);
 }
 
