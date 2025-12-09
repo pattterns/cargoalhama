@@ -2,6 +2,9 @@
   command = "npm run build"
   publish = "_site"
 
+[build.environment]
+  NETLIFY = "true"
+
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"

@@ -68,6 +68,100 @@ Si necesitas variables de entorno:
 2. Haz clic en **"Add custom domain"**
 3. Sigue las instrucciones para configurar tu dominio
 
+### Configurar Notificaciones por Email del Formulario de Contacto
+
+Para que los mensajes del formulario lleguen a **juanpablo@ocelot.es**:
+
+#### Paso 1: Verificar que el formulario se detecte
+
+Si no ves el formulario "contacto" en **Site settings** → **Forms**, sigue estos pasos en orden:
+
+1. **Verifica que "Form detection" esté habilitado**:
+   - Ve a **Site settings** → **Forms** → **Form detection**
+   - Asegúrate de que esté en **"Enable form detection"** (habilitado)
+
+2. **Verifica el HTML generado**:
+   - Ve a **Site overview** → **Deploys** → Haz clic en el último deploy
+   - Descarga o revisa el archivo `_site/index.html` generado
+   - Verifica que el formulario tenga el atributo `data-netlify="true"` y `method="POST"`
+   - Si no lo tiene, el build no está procesando correctamente el formulario
+
+3. **Haz un deploy limpio**:
+   - Ve a **Site overview** → **Deploys**
+   - Haz clic en **"Trigger deploy"** → **"Clear cache and deploy site"**
+   - Esto fuerza a Netlify a escanear el HTML desde cero
+
+4. **Espera a que termine el build**:
+   - Netlify escanea los formularios **durante el build**
+   - Espera a que el deploy termine completamente (estado "Published")
+
+5. **Envía un formulario de prueba**:
+   - Ve a tu sitio desplegado (la URL de Netlify)
+   - Rellena y envía el formulario de contacto
+   - Verifica que aparezca el mensaje de éxito
+
+6. **Revisa los envíos**:
+   - Ve a **Site overview** → **Forms**
+   - Si ves envíos en la lista, el formulario está funcionando
+   - El formulario puede aparecer en la lista después del primer envío exitoso
+
+7. **Si aún no aparece después de 5-10 minutos**:
+   - Ve a **Site settings** → **Forms** → **Usage and configuration**
+   - Verifica que no haya errores
+   - Revisa los logs del build para ver si hay warnings sobre formularios
+
+#### Paso 2: Configurar las notificaciones por email
+
+Una vez que veas el formulario "contacto" en **Site settings** → **Forms**:
+
+1. Haz clic en el formulario **"contacto"**
+2. Ve a la pestaña **"Notifications"** o **"Form notifications"**
+3. Haz clic en **"Add notification"**
+4. Selecciona **"Email notification"**
+5. Configura:
+   - **To**: `juanpablo@ocelot.es`
+   - **From**: (puedes dejarlo por defecto o usar un email personalizado)
+   - **Subject**: `Nuevo mensaje de contacto - Cargo Alhama`
+   - **Body**: Puedes personalizar el mensaje o usar el template por defecto
+6. Guarda los cambios
+
+**Nota**: Las notificaciones por email funcionan automáticamente una vez configuradas. También puedes ver todos los envíos del formulario en **Site overview** → **Forms** → **"contacto"**.
+
+#### Si el formulario aún no aparece después de seguir todos los pasos:
+
+**Verificación del HTML generado:**
+
+1. **Descarga el HTML del deploy**:
+   - Ve a **Site overview** → **Deploys** → Haz clic en el último deploy
+   - Busca el archivo `index.html` en los archivos desplegados
+   - O visita `https://tu-sitio.netlify.app/index.html` y ve el código fuente
+
+2. **Busca el formulario en el HTML**:
+   - Debe tener: `<form name="contacto" method="POST" data-netlify="true">`
+   - Debe tener: `<input type="hidden" name="form-name" value="contacto">`
+   - Si estos atributos no están, Eleventy no está procesando correctamente el template
+
+3. **Si el formulario no está en el HTML generado**:
+   - Verifica que `index.html` esté en la raíz del proyecto
+   - Verifica que Eleventy esté procesando el archivo (revisa `.eleventy.js`)
+   - Prueba hacer un build local: `npm run build` y revisa `_site/index.html`
+
+**Otras soluciones:**
+
+- **Deshabilita y vuelve a habilitar "Form detection"**:
+  - Ve a **Site settings** → **Forms** → **Form detection**
+  - Deshabilita, guarda, espera 1 minuto, vuelve a habilitar
+  - Haz un nuevo deploy
+
+- **Revisa los logs del build**:
+  - Ve a **Site overview** → **Deploys** → Haz clic en el deploy
+  - Busca mensajes sobre "Forms" o "form detection"
+  - Si hay errores, corrígelos
+
+- **Contacta con soporte de Netlify**:
+  - Si nada funciona, puede ser un problema del lado de Netlify
+  - Incluye los logs del build y el HTML generado
+
 ### Actualizar admin/config.yml (si cambias de rama)
 
 Si cambias la rama principal de `master` a `main`:

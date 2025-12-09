@@ -292,17 +292,22 @@ if (contactForm) {
         submitButton.style.opacity = '0.7';
         
         try {
-            // Aquí puedes agregar la lógica para enviar el formulario
-            // Por ejemplo, usando fetch para enviar a un endpoint
+            // Enviar formulario a Netlify Forms usando URLSearchParams (según documentación oficial)
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
+            });
             
-            // Simulación de envío (reemplazar con lógica real)
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Mostrar mensaje de éxito
-            showNotification('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.', 'success');
-            
-            // Resetear formulario
-            contactForm.reset();
+            if (response.ok) {
+                // Mostrar mensaje de éxito
+                showNotification('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.', 'success');
+                
+                // Resetear formulario
+                contactForm.reset();
+            } else {
+                throw new Error('Error en la respuesta del servidor');
+            }
             
         } catch (error) {
             // Mostrar mensaje de error
