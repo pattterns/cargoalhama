@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: pattterns/cargoalhama
-  branch: main
+  branch: master
   auth_endpoint: api/auth
 
 media_folder: "imagenes/uploads"
