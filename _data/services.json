@@ -25,14 +25,14 @@
       "number": "04",
       "title": "Flota de Camiones",
       "description": "Vehículos modernos, revisados y preparados para cualquier desafío logístico. Tecnología y mantenimiento para máxima fiabilidad.",
-      "image": "/imagenes/flota.png",
+      "image": "/imagenes/warehouse1.png",
       "alt": "Flota"
     },
     {
       "number": "05",
       "title": "Red de Colaboradores",
       "description": "Una red sólida por toda España que nos permite dar cobertura donde y cuando la necesitas.",
-      "image": "/imagenes/warehouse1.png",
+      "image": "/imagenes/colaboradores new.png",
       "alt": "Colaboradores"
     }
   ]
