@@ -126,29 +126,62 @@ permalink: /
                     <p style="display: none;">
                         <label>No llenar este campo si eres humano: <input name="bot-field" /></label>
                     </p>
-                    <div class="form-columns">
-                        <div class="form-column-left">
-                            <div class="form-group">
-                                <label for="name">Nombre *</label>
-                                <input type="text" id="name" name="name" required>
+                    
+                    <!-- Sección 1: Datos del Cliente (B2B) -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">Datos del Cliente</h3>
+                        <div class="form-columns">
+                            <div class="form-column-left">
+                                <div class="form-group">
+                                    <label for="company">Nombre de la Empresa *</label>
+                                    <input type="text" id="company" name="company" required placeholder="Ej: Empresa Logística S.L.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-person">Persona de Contacto *</label>
+                                    <input type="text" id="contact-person" name="contact-person" required placeholder="Nombre y apellidos">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Teléfono</label>
-                                <input type="tel" id="phone" name="phone">
-                            </div>
-                        </div>
-                        <div class="form-column-right">
-                            <div class="form-group">
-                                <label for="message">Mensaje *</label>
-                                <textarea id="message" name="message" rows="4" required placeholder="{{ contact.formPlaceholder }}"></textarea>
+                            <div class="form-column-right">
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" required placeholder="contacto@empresa.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Teléfono (para gestión de tráfico) *</label>
+                                    <input type="tel" id="phone" name="phone" required placeholder="600 000 000">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+
+                    <!-- Sección 2: Detalles de la Carga (Logística) -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">Detalles de la Carga</h3>
+                        <div class="form-columns">
+                            <div class="form-column-left">
+                                <div class="form-group">
+                                    <label for="origin">Origen (Ciudad/CP) *</label>
+                                    <input type="text" id="origin" name="origin" required placeholder="Ej: Madrid, 28001">
+                                </div>
+                                <div class="form-group">
+                                    <label for="destination">Destino (Ciudad/CP) *</label>
+                                    <input type="text" id="destination" name="destination" required placeholder="Ej: Barcelona, 08001">
+                                </div>
+                            </div>
+                            <div class="form-column-right">
+                                <div class="form-group">
+                                    <label for="load-date">Fecha de Carga Estimada</label>
+                                    <input type="date" id="load-date" name="load-date" placeholder="DD/MM/AAAA">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cargo-type">Tipo de Carga / Nº de Palets *</label>
+                                    <textarea id="cargo-type" name="cargo-type" rows="3" required placeholder="{{ contact.formPlaceholder }}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Solicitar Presupuesto</button>
                 </form>
             </div>
             <div class="map-wrapper">

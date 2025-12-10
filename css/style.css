@@ -990,7 +990,30 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
 .contact-form {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-sm);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.form-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black-deep);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Michroma', sans-serif;
 }
 
 .form-columns {
