@@ -11,14 +11,14 @@
       "number": "02",
       "title": "Transporte Internacional",
       "description": "Experiencia en operaciones logísticas nacionales y europeas, con capacidad para coordinar envíos a distintos destinos cuando el proyecto lo requiere.",
-      "image": "/imagenes/internacional.png",
+      "image": "/imagenes/internacional_new.png",
       "alt": "Transporte Internacional"
     },
     {
       "number": "03",
       "title": "Almacenaje Propio",
       "description": "Nuestras instalaciones están equipadas para mantener la seguridad y flexibilidad que tus mercancías necesitan. Control, inventario y disponibilidad para tus proyectos.",
-      "image": "/imagenes/almacenaje.png",
+      "image": "/imagenes/warehouse4.png",
       "alt": "Almacenaje"
     },
     {
@@ -37,3 +37,4 @@
     }
   ]
 }
+
