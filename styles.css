@@ -653,7 +653,9 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     opacity: 0.4;
     transition: opacity var(--transition-base);
     width: 150px;
-    height: 60px;
+    min-height: 80px;
+    height: auto;
+    padding: 10px 0;
 }
 
 .clients-marquee-item:hover {
