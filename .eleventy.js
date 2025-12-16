@@ -6,11 +6,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin"); // Importante: incluir panel de Decap
   eleventyConfig.addPassthroughCopy("_data"); // Datos JSON/YAML
   
-  // Ignorar archivos de documentación y scripts
-  eleventyConfig.ignores.add("OPTIMIZACION_IMAGENES.md");
-  eleventyConfig.ignores.add("IMPLEMENTACION_WEBP.md");
-  eleventyConfig.ignores.add("RESUMEN_OPTIMIZACION.md");
-  eleventyConfig.ignores.add("INICIO_RAPIDO.md");
+  // Ignorar scripts y node_modules
   eleventyConfig.ignores.add("scripts");
   eleventyConfig.ignores.add("node_modules");
   

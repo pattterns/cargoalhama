@@ -129,3 +129,5 @@ https://tudominio.com/admin
 
 Para más información, consulta el archivo `plan-11ty-decap-cms.md` que contiene instrucciones detalladas paso a paso.
 
+
+
