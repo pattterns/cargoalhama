@@ -7,7 +7,10 @@ permalink: /
 <!-- Hero Section -->
 <section id="inicio" class="hero">
     <div class="hero-image-wrapper">
-        <img src="{{ hero.image }}" alt="Cargo Alhama" class="hero-bg-image">
+        <picture>
+            <source srcset="{{ hero.image | toWebp }}" type="image/webp">
+            <img src="{{ hero.image }}" alt="Cargo Alhama" class="hero-bg-image" loading="eager">
+        </picture>
         <div class="hero-text-overlay">
             <p class="hero-overlay-text">{{ hero.text }}</p>
         </div>
@@ -20,13 +23,19 @@ permalink: /
         <div class="clients-marquee-track">
             {% for client in clients.clients %}
             <div class="clients-marquee-item">
-                <img src="{{ client.image }}" alt="{{ client.name }}">
+                <picture>
+                    <source srcset="{{ client.image | toWebp }}" type="image/webp">
+                    <img src="{{ client.image }}" alt="{{ client.name }}" loading="lazy">
+                </picture>
             </div>
             {% endfor %}
             <!-- Duplicados para efecto infinito -->
             {% for client in clients.clients %}
             <div class="clients-marquee-item">
-                <img src="{{ client.image }}" alt="{{ client.name }}">
+                <picture>
+                    <source srcset="{{ client.image | toWebp }}" type="image/webp">
+                    <img src="{{ client.image }}" alt="{{ client.name }}" loading="lazy">
+                </picture>
             </div>
             {% endfor %}
         </div>
@@ -65,7 +74,10 @@ permalink: /
                     <p>{{ service.description }}</p>
                 </div>
                 <div class="service-image-numbered">
-                    <img src="{{ service.image }}" alt="{{ service.alt }}">
+                    <picture>
+                        <source srcset="{{ service.image | toWebp }}" type="image/webp">
+                        <img src="{{ service.image }}" alt="{{ service.alt }}" loading="lazy">
+                    </picture>
                 </div>
             </div>
             {% endif %}
@@ -85,7 +97,10 @@ permalink: /
                     <p>{{ service.description }}</p>
                 </div>
                 <div class="service-image-numbered">
-                    <img src="{{ service.image }}" alt="{{ service.alt }}">
+                    <picture>
+                        <source srcset="{{ service.image | toWebp }}" type="image/webp">
+                        <img src="{{ service.image }}" alt="{{ service.alt }}" loading="lazy">
+                    </picture>
                 </div>
             </div>
             {% endif %}
@@ -102,7 +117,10 @@ permalink: /
         <div class="gallery-grid">
             {% for item in installations.gallery %}
             <div class="gallery-item">
-                <img src="{{ item.image }}" alt="{{ item.alt }}" loading="lazy">
+                <picture>
+                    <source srcset="{{ item.image | toWebp }}" type="image/webp">
+                    <img src="{{ item.image }}" alt="{{ item.alt }}" loading="lazy">
+                </picture>
                 <div class="gallery-overlay">
                     <span>{{ item.caption }}</span>
                 </div>

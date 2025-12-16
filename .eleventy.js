@@ -6,6 +6,34 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin"); // Importante: incluir panel de Decap
   eleventyConfig.addPassthroughCopy("_data"); // Datos JSON/YAML
   
+  // Ignorar archivos de documentación y scripts
+  eleventyConfig.ignores.add("OPTIMIZACION_IMAGENES.md");
+  eleventyConfig.ignores.add("IMPLEMENTACION_WEBP.md");
+  eleventyConfig.ignores.add("RESUMEN_OPTIMIZACION.md");
+  eleventyConfig.ignores.add("INICIO_RAPIDO.md");
+  eleventyConfig.ignores.add("scripts");
+  eleventyConfig.ignores.add("node_modules");
+  
+  // Filtro para convertir ruta PNG a WebP
+  eleventyConfig.addFilter("toWebp", function(src) {
+    if (!src) return src;
+    return src.replace('.png', '.webp').replace('/imagenes/', '/imagenes/webp/');
+  });
+  
+  // Helper para generar imágenes WebP con fallback PNG
+  eleventyConfig.addShortcode("picture", function(src, alt, className = "", loading = "lazy") {
+    // Convertir ruta PNG a WebP
+    const webpSrc = src.replace('.png', '.webp').replace('/imagenes/', '/imagenes/webp/');
+    
+    // Construir atributos de clase
+    const classAttr = className ? ` class="${className}"` : '';
+    
+    return `<picture>
+  <source srcset="${webpSrc}" type="image/webp">
+  <img src="${src}" alt="${alt}"${classAttr} loading="${loading}">
+</picture>`;
+  });
+  
   // Devuelve config
   return {
     markdownTemplateEngine: "njk",
@@ -17,4 +45,6 @@ module.exports = function(eleventyConfig) {
     }
   };
 };
+
+
 

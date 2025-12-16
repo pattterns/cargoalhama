@@ -17,7 +17,10 @@
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="#inicio">
-                        <img src="/imagenes/logo.png" alt="{{ site.title }}" class="logo-img">
+                        <picture>
+                            <source srcset="/imagenes/webp/logo.webp" type="image/webp">
+                            <img src="/imagenes/logo.png" alt="{{ site.title }}" class="logo-img" loading="eager">
+                        </picture>
                     </a>
                 </div>
                 
@@ -95,13 +98,19 @@
             </div>
             <!-- Banner KD -->
             <div class="footer-banner">
-                <img src="/imagenes/kd banner.png" alt="KD Banner" class="footer-banner-img">
+                <picture>
+                    <source srcset="/imagenes/webp/kd banner.webp" type="image/webp">
+                    <img src="/imagenes/kd banner.png" alt="KD Banner" class="footer-banner-img" loading="lazy">
+                </picture>
             </div>
             <p class="footer-copyright">&copy; 2025 {{ site.title }}. Todos los derechos reservados.</p>
             <p class="footer-ocelot">
                 <a href="https://ocelot.es/" target="_blank" rel="noopener noreferrer" class="footer-ocelot-link">
                     Diseño web por Ocelot
-                    <img src="/imagenes/logo ocelot.png" alt="Ocelot" class="footer-ocelot-logo">
+                    <picture>
+                        <source srcset="/imagenes/webp/logo ocelot.webp" type="image/webp">
+                        <img src="/imagenes/logo ocelot.png" alt="Ocelot" class="footer-ocelot-logo" loading="lazy">
+                    </picture>
                 </a>
             </p>
         </div>
