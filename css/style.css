@@ -500,12 +500,13 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     min-height: 563px;
     max-height: 87.5vh;
     object-fit: cover;
-    object-position: center bottom;
+    object-position: center center;
     display: block;
     will-change: transform;
     position: absolute;
-    top: -25px;
+    top: 50%;
     left: 0;
+    transform: translateY(-50%);
     transform-origin: center center;
 }
 
