@@ -282,6 +282,21 @@ if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Validar formulario antes de enviar
+        const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
+            }
+        });
+        
+        if (!isValid) {
+            showNotification('Por favor, completa todos los campos obligatorios correctamente.', 'error');
+            return;
+        }
+        
         const formData = new FormData(contactForm);
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.textContent;
@@ -292,14 +307,22 @@ if (contactForm) {
         submitButton.style.opacity = '0.7';
         
         try {
-            // Enviar formulario a Netlify Forms usando URLSearchParams (según documentación oficial)
+            // Asegurar que form-name esté incluido (requerido por Netlify Forms)
+            if (!formData.has('form-name')) {
+                formData.append('form-name', 'contacto');
+            }
+            
+            // Enviar formulario a Netlify Forms usando URLSearchParams
             const response = await fetch('/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams(formData).toString()
             });
             
-            if (response.ok) {
+            // Netlify Forms devuelve 200 incluso si hay errores, verificar el contenido
+            const responseText = await response.text();
+            
+            if (response.ok && (responseText.includes('success') || responseText.includes('Thank you') || responseText === '')) {
                 // Mostrar mensaje de éxito
                 showNotification('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.', 'success');
                 
