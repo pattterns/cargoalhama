@@ -1,18 +1,6 @@
 {
   "clients": [
     {
-      "name": "Carrefour",
-      "image": "/imagenes/clientes/carrefour.png"
-    },
-    {
-      "name": "ECI",
-      "image": "/imagenes/clientes/eci.png"
-    },
-    {
-      "name": "Mercadona",
-      "image": "/imagenes/clientes/mercadona.png"
-    },
-    {
       "name": "Estella Levante",
       "image": "/imagenes/clientes/estella levante bueno.png"
     },
