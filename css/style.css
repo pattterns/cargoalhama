@@ -496,18 +496,18 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
 
 .hero-bg-image {
     width: 100%;
-    height: 125%;
-    min-height: 563px;
-    max-height: 87.5vh;
+    height: 100%;
+    min-height: 100%;
     object-fit: cover;
     object-position: center center;
     display: block;
     will-change: transform;
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
-    transform: translateY(-50%);
-    transform-origin: center center;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 .hero-text-overlay {
