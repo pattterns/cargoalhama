@@ -23,6 +23,30 @@
     {
       "name": "Toñifruit",
       "image": "/imagenes/clientes/toñifruit.png"
+    },
+    {
+      "name": "Alfil 2",
+      "image": "/imagenes/clientes/alfil 2.png"
+    },
+    {
+      "name": "D'mezclas",
+      "image": "/imagenes/clientes/dmezcla(1).png"
+    },
+    {
+      "name": "Granbibio",
+      "image": "/imagenes/clientes/GRANBIBIO.png"
+    },
+    {
+      "name": "Green World",
+      "image": "/imagenes/clientes/green world.png"
+    },
+    {
+      "name": "Grupo Damm",
+      "image": "/imagenes/clientes/grupo damm.png"
+    },
+    {
+      "name": "Martinez Romero",
+      "image": "/imagenes/clientes/martinez romero.png"
     }
   ]
 }
