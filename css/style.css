@@ -499,7 +499,7 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     height: 100%;
     min-height: 100%;
     object-fit: cover;
-    object-position: center center;
+    object-position: center bottom;
     display: block;
     will-change: transform;
     position: absolute;
