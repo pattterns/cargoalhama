@@ -24,14 +24,14 @@
     {
       "number": "04",
       "title": "Flota de Camiones",
-      "description": "Vehículos modernos, revisados y preparados para cualquier desafío logístico. Tecnología y mantenimiento para máxima fiabilidad.",
+      "description": "Contamos con una variada flota de camiones de 2 ejes, 3 ejes y tráiler adaptados, modernos y revisados, preparados para cualquier desafío logístico con tecnología y mantenimiento para máxima fiabilidad.",
       "image": "/imagenes/warehouse1.png",
       "alt": "Flota"
     },
     {
       "number": "05",
       "title": "Red de Colaboradores",
-      "description": "Una red sólida por toda España que nos permite dar cobertura donde y cuando la necesitas.",
+      "description": "Una red sólida por toda España que nos permite dar cobertura donde y cuando la necesitas, así como en el reparto de última milla, que significa repartir a pequeña escala, contando para ello con camiones pequeños de reparto.",
       "image": "/imagenes/colaboradores new.png",
       "alt": "Colaboradores"
     }
