@@ -1,16 +1,11 @@
 {
   "title": "INSTALACIONES",
-  "description": "Conoce nuestras modernas instalaciones y flota de vehículos",
+  "description": "Conoce nuestras modernas instalaciones y espacios de trabajo",
   "gallery": [
     {
       "image": "/imagenes/oficina new.png",
       "alt": "Instalaciones Cargo Alhama",
       "caption": "Vista de nuestras instalaciones"
-    },
-    {
-      "image": "/imagenes/flota camiones.png",
-      "alt": "Flota de camiones",
-      "caption": "Nuestra flota de camiones"
     },
     {
       "image": "/imagenes/almacen new.png",
