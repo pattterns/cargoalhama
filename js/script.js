@@ -568,3 +568,128 @@ function validateField(field) {
     return isValid;
 }
 
+// ============================================
+// CARRUSEL FLOTA DE CAMIONES
+// ============================================
+(function() {
+    const carousel = document.getElementById('fleetCarousel');
+    const track = document.getElementById('fleetCarouselTrack');
+    const prevBtn = document.getElementById('fleetCarouselPrev');
+    const nextBtn = document.getElementById('fleetCarouselNext');
+    const dotsContainer = document.getElementById('fleetCarouselDots');
+    
+    if (!carousel || !track || !prevBtn || !nextBtn || !dotsContainer) return;
+    
+    const slides = track.querySelectorAll('.fleet-carousel-slide');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+    let isTransitioning = false;
+    
+    // Crear dots de navegación
+    function createDots() {
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'fleet-carousel-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.setAttribute('aria-label', `Ir a imagen ${i + 1}`);
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+    
+    // Actualizar posición del carrusel
+    function updateCarousel() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        
+        const translateX = -currentIndex * 100;
+        track.style.transform = `translateX(${translateX}%)`;
+        
+        // Actualizar dots
+        const dots = dotsContainer.querySelectorAll('.fleet-carousel-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+        
+        // Los botones siempre están habilitados para loop infinito
+        // prevBtn.disabled = currentIndex === 0;
+        // nextBtn.disabled = currentIndex === totalSlides - 1;
+        
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 500);
+    }
+    
+    // Ir a slide específico
+    function goToSlide(index) {
+        if (index < 0 || index >= totalSlides || isTransitioning) return;
+        currentIndex = index;
+        updateCarousel();
+    }
+    
+    // Slide siguiente
+    function nextSlide() {
+        if (currentIndex < totalSlides - 1) {
+            goToSlide(currentIndex + 1);
+        } else {
+            goToSlide(0); // Loop infinito
+        }
+    }
+    
+    // Slide anterior
+    function prevSlide() {
+        if (currentIndex > 0) {
+            goToSlide(currentIndex - 1);
+        } else {
+            goToSlide(totalSlides - 1); // Loop infinito
+        }
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    // Soporte para gestos táctiles (swipe)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+    }
+    
+    // Auto-play opcional (descomentar si se desea)
+    // let autoPlayInterval;
+    // function startAutoPlay() {
+    //     autoPlayInterval = setInterval(nextSlide, 5000);
+    // }
+    // function stopAutoPlay() {
+    //     clearInterval(autoPlayInterval);
+    // }
+    // 
+    // carousel.addEventListener('mouseenter', stopAutoPlay);
+    // carousel.addEventListener('mouseleave', startAutoPlay);
+    // startAutoPlay();
+    
+    // Inicializar
+    createDots();
+    updateCarousel();
+})();
+
