@@ -692,4 +692,3 @@ function validateField(field) {
     createDots();
     updateCarousel();
 })();
-
