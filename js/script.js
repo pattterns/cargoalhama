@@ -10,18 +10,29 @@ const lenis = new Lenis({
     smoothWheel: true,
     wheelMultiplier: 1,
     touchMultiplier: 1,
-    anchors: {
-        // Offset para compensar el header sticky
-        offset: () => {
-            return header ? -header.offsetHeight : 0;
-        }
-    }
 });
 
 // Conectar Lenis con los efectos de scroll existentes
 lenis.on('scroll', () => {
     handleHeroRelumeScroll();
     handleHeroParallax();
+});
+
+// ============================================
+// SMOOTH SCROLL PARA ENLACES ANCLA (via Lenis)
+// ============================================
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetSelector = this.getAttribute('href');
+        if (targetSelector && targetSelector !== '#') {
+            const headerHeight = header ? header.offsetHeight : 0;
+            lenis.scrollTo(targetSelector, {
+                offset: -headerHeight,
+            });
+        }
+    });
 });
 
 // ============================================
