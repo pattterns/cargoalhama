@@ -1,4 +1,30 @@
 // ============================================
+// LENIS SMOOTH SCROLL - INICIALIZACIÓN
+// ============================================
+
+const header = document.getElementById('header');
+
+const lenis = new Lenis({
+    autoRaf: true,
+    lerp: 0.1,
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 1,
+    anchors: {
+        // Offset para compensar el header sticky
+        offset: () => {
+            return header ? -header.offsetHeight : 0;
+        }
+    }
+});
+
+// Conectar Lenis con los efectos de scroll existentes
+lenis.on('scroll', () => {
+    handleHeroRelumeScroll();
+    handleHeroParallax();
+});
+
+// ============================================
 // MENÚ MÓVIL
 // ============================================
 
@@ -15,15 +41,19 @@ if (menuToggle && navMenu) {
             spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
             spans[1].style.opacity = '0';
             spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            // Detener Lenis mientras el menú está abierto (evita scroll del fondo)
+            lenis.stop();
         } else {
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
             spans[2].style.transform = 'none';
+            // Reanudar Lenis al cerrar el menú
+            lenis.start();
         }
     });
 
     // Cerrar menú al hacer clic en un enlace
-    const navLinks = navMenu.querySelectorAll('.nav-link');
+    const navLinks = navMenu.querySelectorAll('.header-link');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
@@ -31,39 +61,11 @@ if (menuToggle && navMenu) {
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
             spans[2].style.transform = 'none';
+            // Reanudar Lenis al cerrar el menú
+            lenis.start();
         });
     });
 }
-
-// ============================================
-// HEADER SCROLL EFFECT
-// ============================================
-
-const header = document.getElementById('header');
-let lastScroll = 0;
-
-// Header ya es sticky con fondo, no necesita cambios al scroll
-
-// ============================================
-// SMOOTH SCROLL PARA ENLACES ANCLA
-// ============================================
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            const headerHeight = header ? header.offsetHeight : 0;
-            const targetPosition = target.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
 
 // ============================================
 // CAMBIO DE COLOR EN HERO Y RELUME CON SCROLL
@@ -249,20 +251,8 @@ function handleHeroParallax() {
     }
 }
 
-// Ejecutar en scroll con throttling para mejor performance
-let ticking = false;
-function onScroll() {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            handleHeroRelumeScroll();
-            handleHeroParallax();
-            ticking = false;
-        });
-        ticking = true;
-    }
-}
-
-window.addEventListener('scroll', onScroll, { passive: true });
+// Los efectos de scroll se ejecutan vía lenis.on('scroll') definido arriba.
+// Solo necesitamos los eventos de load y resize para el estado inicial y recalcular en resize.
 window.addEventListener('load', () => {
     handleHeroRelumeScroll();
     handleHeroParallax();

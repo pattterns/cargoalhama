@@ -42,9 +42,7 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+/* scroll-behavior: smooth eliminado - Lenis gestiona el smooth scroll */
 
 body {
     font-family: 'DM Mono', monospace;
