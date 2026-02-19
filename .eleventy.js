@@ -6,9 +6,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin"); // Importante: incluir panel de Decap
   eleventyConfig.addPassthroughCopy("_data"); // Datos JSON/YAML
   
-  // Ignorar scripts y node_modules
+  // Ignorar scripts, node_modules y lenis-main
   eleventyConfig.ignores.add("scripts");
   eleventyConfig.ignores.add("node_modules");
+  eleventyConfig.ignores.add("lenis-main");
   
   // Filtro para convertir ruta PNG a WebP
   eleventyConfig.addFilter("toWebp", function(src) {
