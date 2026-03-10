@@ -33,7 +33,8 @@ const SIZE_CONFIG = {
 function classifyImage(filename) {
   const name = filename.toLowerCase();
   
-  if (name.includes('hero') || name.includes('internacional')) {
+  if (name.includes('hero') || name.includes('internacional') ||
+      name.includes('volvo') || name.includes('fachada') || name.includes('nueva')) {
     return 'hero';
   }
   if (name.includes('nacional') || name.includes('almacen') || 
