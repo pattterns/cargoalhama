@@ -14,18 +14,19 @@ module.exports = function(eleventyConfig) {
   // Filtro para convertir ruta de imagen a WebP
   eleventyConfig.addFilter("toWebp", function(src) {
     if (!src) return src;
-    return src
-      .replace(/\.(png|jpg|jpeg)$/i, '.webp')
-      .replace('/imagenes/optimized/', '/imagenes/webp/')
-      .replace('/imagenes/', '/imagenes/webp/');
+    // Normalizar: eliminar subcarpeta /optimized/ para unificar la lógica
+    const normalized = src.replace('/imagenes/optimized/', '/imagenes/');
+    return normalized
+      .replace('/imagenes/', '/imagenes/webp/')
+      .replace(/\.(png|jpg|jpeg)$/i, '.webp');
   });
   
   // Helper para generar imágenes WebP con fallback
   eleventyConfig.addShortcode("picture", function(src, alt, className = "", loading = "lazy") {
-    const webpSrc = src
-      .replace(/\.(png|jpg|jpeg)$/i, '.webp')
-      .replace('/imagenes/optimized/', '/imagenes/webp/')
-      .replace('/imagenes/', '/imagenes/webp/');
+    const normalized = src.replace('/imagenes/optimized/', '/imagenes/');
+    const webpSrc = normalized
+      .replace('/imagenes/', '/imagenes/webp/')
+      .replace(/\.(png|jpg|jpeg)$/i, '.webp');
     
     // Construir atributos de clase
     const classAttr = className ? ` class="${className}"` : '';
