@@ -11,16 +11,21 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.ignores.add("node_modules");
   eleventyConfig.ignores.add("lenis-main");
   
-  // Filtro para convertir ruta PNG a WebP
+  // Filtro para convertir ruta de imagen a WebP
   eleventyConfig.addFilter("toWebp", function(src) {
     if (!src) return src;
-    return src.replace('.png', '.webp').replace('/imagenes/', '/imagenes/webp/');
+    return src
+      .replace(/\.(png|jpg|jpeg)$/i, '.webp')
+      .replace('/imagenes/optimized/', '/imagenes/webp/')
+      .replace('/imagenes/', '/imagenes/webp/');
   });
   
-  // Helper para generar imágenes WebP con fallback PNG
+  // Helper para generar imágenes WebP con fallback
   eleventyConfig.addShortcode("picture", function(src, alt, className = "", loading = "lazy") {
-    // Convertir ruta PNG a WebP
-    const webpSrc = src.replace('.png', '.webp').replace('/imagenes/', '/imagenes/webp/');
+    const webpSrc = src
+      .replace(/\.(png|jpg|jpeg)$/i, '.webp')
+      .replace('/imagenes/optimized/', '/imagenes/webp/')
+      .replace('/imagenes/', '/imagenes/webp/');
     
     // Construir atributos de clase
     const classAttr = className ? ` class="${className}"` : '';

@@ -4,8 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if title %}{{ title }} - {% endif %}{{ site.title }}</title>
+    <link rel="preload" as="image" href="/imagenes/webp/volvo 3.webp" type="image/webp" fetchpriority="high">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.17/dist/lenis.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+      /* ── Cookie Consent Banner ── */
+      #cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        background: #1a1a1a;
+        border-top: 1px solid #2d2d2d;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        font-family: 'DM Mono', monospace;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #cookie-banner.visible {
+        transform: translateY(0);
+      }
+      #cookie-banner p {
+        color: #9a9a9a;
+        font-size: 0.78rem;
+        line-height: 1.55;
+        margin: 0;
+        flex: 1;
+        min-width: 220px;
+      }
+      #cookie-banner p a {
+        color: #e5e5e5;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      #cookie-banner p a:hover {
+        color: #ffffff;
+      }
+      .cookie-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-shrink: 0;
+      }
+      #cookie-accept {
+        background: #ffffff;
+        color: #0a0a0a;
+        border: none;
+        padding: 0.55rem 1.25rem;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+      #cookie-accept:hover {
+        background: #e5e5e5;
+      }
+      #cookie-reject {
+        background: transparent;
+        color: #6b6b6b;
+        border: 1px solid #2d2d2d;
+        padding: 0.55rem 1.25rem;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      #cookie-reject:hover {
+        border-color: #6b6b6b;
+        color: #9a9a9a;
+      }
+      @media (max-width: 600px) {
+        #cookie-banner {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 1.25rem;
+          gap: 1rem;
+        }
+        .cookie-actions {
+          width: 100%;
+        }
+        #cookie-accept,
+        #cookie-reject {
+          flex: 1;
+          text-align: center;
+        }
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Michroma&family=DM+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -117,6 +211,19 @@
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
+      <p>
+        Usamos cookies técnicas necesarias para el funcionamiento del sitio.
+        No utilizamos cookies de seguimiento ni publicidad.
+        Al continuar navegando aceptas su uso.
+      </p>
+      <div class="cookie-actions">
+        <button id="cookie-reject">Rechazar</button>
+        <button id="cookie-accept">Aceptar</button>
+      </div>
+    </div>
+
     <script src="https://unpkg.com/lenis@1.3.17/dist/lenis.min.js"></script>
     <script src="/js/script.js"></script>
     <!-- Netlify Identity Widget -->
@@ -131,6 +238,33 @@
           }
         });
       }
+    </script>
+    <script>
+      (function () {
+        var COOKIE_KEY = 'ca_cookies_accepted';
+        var banner = document.getElementById('cookie-banner');
+        var btnAccept = document.getElementById('cookie-accept');
+        var btnReject = document.getElementById('cookie-reject');
+
+        function hideBanner() {
+          banner.classList.remove('visible');
+          setTimeout(function () { banner.style.display = 'none'; }, 420);
+        }
+
+        if (!localStorage.getItem(COOKIE_KEY)) {
+          setTimeout(function () { banner.classList.add('visible'); }, 800);
+        }
+
+        btnAccept.addEventListener('click', function () {
+          localStorage.setItem(COOKIE_KEY, 'accepted');
+          hideBanner();
+        });
+
+        btnReject.addEventListener('click', function () {
+          localStorage.setItem(COOKIE_KEY, 'rejected');
+          hideBanner();
+        });
+      })();
     </script>
 </body>
 </html>
