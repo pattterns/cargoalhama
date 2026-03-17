@@ -1,25 +1,7 @@
-// ============================================
-// LENIS SMOOTH SCROLL - INICIALIZACIÓN
-// ============================================
-
 const header = document.getElementById('header');
 
-const lenis = new Lenis({
-    autoRaf: true,
-    lerp: 0.1,
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    touchMultiplier: 1,
-});
-
-// Conectar Lenis con los efectos de scroll existentes
-lenis.on('scroll', () => {
-    handleHeroRelumeScroll();
-    handleHeroParallax();
-});
-
 // ============================================
-// SMOOTH SCROLL PARA ENLACES ANCLA (via Lenis)
+// SMOOTH SCROLL PARA ENLACES ANCLA (scroll nativo)
 // ============================================
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -27,10 +9,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const targetSelector = this.getAttribute('href');
         if (targetSelector && targetSelector !== '#') {
-            const headerHeight = header ? header.offsetHeight : 0;
-            lenis.scrollTo(targetSelector, {
-                offset: -headerHeight,
-            });
+            const target = document.querySelector(targetSelector);
+            if (target) {
+                const headerHeight = header ? header.offsetHeight : 0;
+                const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
         }
     });
 });
@@ -45,21 +29,16 @@ const navMenu = document.getElementById('navMenu');
 if (menuToggle && navMenu) {
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        
-        // Animación del botón hamburguesa
+
         const spans = menuToggle.querySelectorAll('span');
         if (navMenu.classList.contains('active')) {
             spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
             spans[1].style.opacity = '0';
             spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-            // Detener Lenis mientras el menú está abierto (evita scroll del fondo)
-            lenis.stop();
         } else {
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
             spans[2].style.transform = 'none';
-            // Reanudar Lenis al cerrar el menú
-            lenis.start();
         }
     });
 
@@ -72,128 +51,88 @@ if (menuToggle && navMenu) {
             spans[0].style.transform = 'none';
             spans[1].style.opacity = '1';
             spans[2].style.transform = 'none';
-            // Reanudar Lenis al cerrar el menú
-            lenis.start();
         });
     });
 }
 
 // ============================================
 // CAMBIO DE COLOR EN HERO Y RELUME CON SCROLL
-// Efecto continuo desde que el título del hero desaparece hasta que aparece servicios
 // ============================================
 function handleHeroRelumeScroll() {
     const heroSection = document.querySelector('.hero');
     const relumeSection = document.querySelector('.relume-section');
     const servicesSection = document.querySelector('.services');
-    
+
     if (!heroSection || !relumeSection || !servicesSection) return;
 
-    // Obtener posiciones absolutas en el documento
     const heroRect = heroSection.getBoundingClientRect();
     const servicesRect = servicesSection.getBoundingClientRect();
     const scrollY = window.scrollY || window.pageYOffset;
     const windowHeight = window.innerHeight;
-    
-    // Calcular posición absoluta del final del hero (cuando desaparece completamente)
+
     const heroBottom = scrollY + heroRect.top + heroRect.height;
-    
-    // Calcular posición absoluta del inicio de servicios
-    // Queremos que la transición termine ANTES de que servicios sea visible
     const servicesTop = scrollY + servicesRect.top;
-    const offsetBeforeServices = windowHeight; // Terminar la transición cuando servicios aún está 1 viewport completo abajo
+    const offsetBeforeServices = windowHeight;
     const scrollEnd = servicesTop - offsetBeforeServices;
-    
-    // Rango de scroll: desde que el hero desaparece hasta antes de que servicios aparezca
-    const scrollStart = heroBottom; // Cuando el hero desaparece
+    const scrollStart = heroBottom;
     const scrollRange = scrollEnd - scrollStart;
-    
+
     let scrollProgress = 0;
-    
+
     if (scrollRange > 0) {
-        // Calcular progreso basado en la posición actual del scroll
-        scrollProgress = Math.max(0, Math.min(1, 
-            (scrollY - scrollStart) / scrollRange
-        ));
+        scrollProgress = Math.max(0, Math.min(1, (scrollY - scrollStart) / scrollRange));
     } else {
-        // Si el rango es negativo o cero, usar posición relativa del viewport
         if (heroRect.bottom < 0 && servicesRect.top > offsetBeforeServices) {
-            // El hero ya desapareció y servicios aún no aparece
             const currentRange = servicesRect.top - offsetBeforeServices - heroRect.bottom;
             if (currentRange > 0) {
-                scrollProgress = Math.max(0, Math.min(1, 
-                    (-heroRect.bottom) / currentRange
-                ));
+                scrollProgress = Math.max(0, Math.min(1, (-heroRect.bottom) / currentRange));
             } else {
-                scrollProgress = 1; // Ya terminó la transición
+                scrollProgress = 1;
             }
         } else if (heroRect.bottom >= 0) {
-            // El hero aún es visible
             scrollProgress = 0;
         } else {
-            // Servicios ya está visible o muy cerca -> transición completa
             scrollProgress = 1;
         }
     }
-    
-    // Aplicar función easing ease-in-out para transición suave al inicio/final, rápida en el centro
-    // Usando la función smoothstep: 3t² - 2t³
+
     const easedProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress);
 
-    // Interpolar entre negro profundo (#0a0a0a) y gris ultra claro (#f5f5f5)
-    const startColor = { r: 10, g: 10, b: 10 }; // --black-deep
-    const endColor = { r: 245, g: 245, b: 245 }; // --gray-ultra-light
+    const startColor = { r: 10, g: 10, b: 10 };
+    const endColor = { r: 245, g: 245, b: 245 };
 
     const currentR = Math.round(startColor.r + (endColor.r - startColor.r) * easedProgress);
     const currentG = Math.round(startColor.g + (endColor.g - startColor.g) * easedProgress);
     const currentB = Math.round(startColor.b + (endColor.b - startColor.b) * easedProgress);
 
-    const backgroundColor = `rgb(${currentR}, ${currentG}, ${currentB})`;
-    
-    // Aplicar el mismo color de fondo a la sección relume
-    relumeSection.style.backgroundColor = backgroundColor;
+    relumeSection.style.backgroundColor = `rgb(${currentR}, ${currentG}, ${currentB})`;
 
-    // Cambiar color del texto en Sobre Nosotros
     const relumeTitleTag = relumeSection.querySelector('.relume-tagline');
     const relumeText = relumeSection.querySelector('.relume-text');
-    
-    // Botones en la sección relume
     const relumeButtons = relumeSection.querySelectorAll('.btn');
-    
+
     if (easedProgress > 0.5) {
-        // Fondo claro -> texto oscuro
         if (relumeTitleTag) relumeTitleTag.style.color = '#6b6b6b';
         if (relumeText) relumeText.style.color = '#0a0a0a';
-        
-        // Cambiar botones a versión normal (para fondos claros)
         relumeButtons.forEach(btn => {
             if (btn.classList.contains('btn-normal-dark')) {
-                btn.classList.remove('btn-normal-dark');
-                btn.classList.add('btn-normal');
+                btn.classList.replace('btn-normal-dark', 'btn-normal');
             } else if (btn.classList.contains('btn-outline-dark')) {
-                btn.classList.remove('btn-outline-dark');
-                btn.classList.add('btn-outline');
+                btn.classList.replace('btn-outline-dark', 'btn-outline');
             } else if (btn.classList.contains('btn-link-dark')) {
-                btn.classList.remove('btn-link-dark');
-                btn.classList.add('btn-link');
+                btn.classList.replace('btn-link-dark', 'btn-link');
             }
         });
     } else {
-        // Fondo oscuro -> texto claro
         if (relumeTitleTag) relumeTitleTag.style.color = '#9a9a9a';
         if (relumeText) relumeText.style.color = '#ffffff';
-        
-        // Cambiar botones a versión dark (para fondos oscuros)
         relumeButtons.forEach(btn => {
             if (btn.classList.contains('btn-normal')) {
-                btn.classList.remove('btn-normal');
-                btn.classList.add('btn-normal-dark');
+                btn.classList.replace('btn-normal', 'btn-normal-dark');
             } else if (btn.classList.contains('btn-outline')) {
-                btn.classList.remove('btn-outline');
-                btn.classList.add('btn-outline-dark');
+                btn.classList.replace('btn-outline', 'btn-outline-dark');
             } else if (btn.classList.contains('btn-link')) {
-                btn.classList.remove('btn-link');
-                btn.classList.add('btn-link-dark');
+                btn.classList.replace('btn-link', 'btn-link-dark');
             }
         });
     }
@@ -201,60 +140,32 @@ function handleHeroRelumeScroll() {
 
 // ============================================
 // PARALLAX PARA IMAGEN Y TEXTO DEL HERO
-// Efecto sutil y elegante con movimiento lento y ligera escala
 // ============================================
 function handleHeroParallax() {
     const heroImage = document.querySelector('.hero-bg-image');
     const heroTextOverlay = document.querySelector('.hero-text-overlay');
     const heroSection = document.querySelector('.hero');
-    
+
     if (!heroImage || !heroSection) return;
-    
+
     const scrollY = window.scrollY || window.pageYOffset;
     const heroRect = heroSection.getBoundingClientRect();
     const windowHeight = window.innerHeight;
-    
-    // Solo aplicar parallax cuando el hero está visible en viewport
+
     if (heroRect.bottom > 0 && heroRect.top < windowHeight) {
-        // Calcular el progreso del scroll dentro de la sección hero
-        const heroTop = heroRect.top;
-        const heroHeight = heroRect.height;
-        
-        // Calcular progreso basado en la posición del hero en el viewport
-        // Cuando heroTop = windowHeight, el hero está justo entrando (progreso = 0)
-        // Cuando heroTop = -heroHeight, el hero sale completamente (progreso = 1)
-        const scrollRange = heroHeight + windowHeight;
-        const scrollProgress = Math.max(0, Math.min(1, 
-            (windowHeight - heroTop) / scrollRange
-        ));
-        
-        // Easing suave (smoothstep)
+        const scrollRange = heroRect.height + windowHeight;
+        const scrollProgress = Math.max(0, Math.min(1, (windowHeight - heroRect.top) / scrollRange));
         const easedProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress);
-        
-        // Parallax: la imagen se mueve más lento que el scroll (hacia abajo)
-        // La imagen se desplaza hacia abajo más lento que el scroll normal
-        const parallaxSpeed = 0.4; // 40% de la velocidad del scroll
-        const parallaxOffset = scrollY * parallaxSpeed;
-        
-        // Escala sutil: la imagen crece ligeramente al hacer scroll
-        const scaleStart = 1.0;
-        const scaleEnd = 1.1; // 10% de aumento
-        const scale = scaleStart + (scaleEnd - scaleStart) * easedProgress;
-        
-        // Aplicar transformaciones a la imagen (positivo para mover hacia abajo)
+
+        const parallaxOffset = scrollY * 0.4;
+        const scale = 1.0 + 0.1 * easedProgress;
+
         heroImage.style.transform = `translateY(${parallaxOffset}px) scale(${scale})`;
-        
-        // Efecto parallax para el texto: se mueve hacia abajo
+
         if (heroTextOverlay) {
-            // El texto se mueve más rápido que la imagen para crear profundidad
-            const textParallaxSpeed = 0.6; // 60% de la velocidad del scroll
-            const textParallaxOffset = scrollY * textParallaxSpeed;
-            
-            // Aplicar transformaciones al texto (solo movimiento, sin cambio de opacidad)
-            heroTextOverlay.style.transform = `translateY(${textParallaxOffset}px)`;
+            heroTextOverlay.style.transform = `translateY(${scrollY * 0.6}px)`;
         }
     } else {
-        // Resetear cuando el hero no es visible
         heroImage.style.transform = 'translateY(0) scale(1)';
         if (heroTextOverlay) {
             heroTextOverlay.style.transform = 'translateY(0)';
@@ -262,12 +173,16 @@ function handleHeroParallax() {
     }
 }
 
-// Los efectos de scroll se ejecutan vía lenis.on('scroll') definido arriba.
-// Solo necesitamos los eventos de load y resize para el estado inicial y recalcular en resize.
+window.addEventListener('scroll', () => {
+    handleHeroRelumeScroll();
+    handleHeroParallax();
+}, { passive: true });
+
 window.addEventListener('load', () => {
     handleHeroRelumeScroll();
     handleHeroParallax();
 });
+
 window.addEventListener('resize', () => {
     handleHeroRelumeScroll();
     handleHeroParallax();
@@ -282,63 +197,50 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Validar formulario antes de enviar
+
         const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
         let isValid = true;
-        
+
         inputs.forEach(input => {
-            if (!validateField(input)) {
-                isValid = false;
-            }
+            if (!validateField(input)) isValid = false;
         });
-        
+
         if (!isValid) {
             showNotification('Por favor, completa todos los campos obligatorios correctamente.', 'error');
             return;
         }
-        
+
         const formData = new FormData(contactForm);
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.textContent;
-        
-        // Deshabilitar botón y mostrar estado de carga
+
         submitButton.disabled = true;
         submitButton.textContent = 'ENVIANDO...';
         submitButton.style.opacity = '0.7';
-        
+
         try {
-            // Asegurar que form-name esté incluido (requerido por Netlify Forms)
             if (!formData.has('form-name')) {
                 formData.append('form-name', 'contacto');
             }
-            
-            // Enviar formulario a Netlify Forms usando URLSearchParams
+
             const response = await fetch('/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams(formData).toString()
             });
-            
-            // Netlify Forms devuelve 200 incluso si hay errores, verificar el contenido
+
             const responseText = await response.text();
-            
+
             if (response.ok && (responseText.includes('success') || responseText.includes('Thank you') || responseText === '')) {
-                // Mostrar mensaje de éxito
                 showNotification('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.', 'success');
-                
-                // Resetear formulario
                 contactForm.reset();
             } else {
                 throw new Error('Error en la respuesta del servidor');
             }
-            
         } catch (error) {
-            // Mostrar mensaje de error
             showNotification('Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo o contáctanos por teléfono.', 'error');
             console.error('Error al enviar formulario:', error);
         } finally {
-            // Restaurar botón
             submitButton.disabled = false;
             submitButton.textContent = originalButtonText;
             submitButton.style.opacity = '1';
@@ -351,14 +253,12 @@ if (contactForm) {
 // ============================================
 
 function showNotification(message, type = 'success') {
-    // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.textContent = message;
-    
-    // Estilos inline para la notificación
+
     const bgColor = type === 'success' ? '#457B9D' : '#d83030';
-    
+
     Object.assign(notification.style, {
         position: 'fixed',
         top: '20px',
@@ -377,45 +277,29 @@ function showNotification(message, type = 'success') {
         letterSpacing: '0.05em',
         fontFamily: 'DM Mono, monospace'
     });
-    
-    // Agregar animación CSS si no existe
+
     if (!document.getElementById('notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
         style.textContent = `
             @keyframes slideInRight {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
             }
             @keyframes slideOutRight {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
             }
         `;
         document.head.appendChild(style);
     }
-    
+
     document.body.appendChild(notification);
-    
-    // Remover notificación después de 5 segundos
+
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.3s ease';
         setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
+            if (notification.parentNode) notification.parentNode.removeChild(notification);
         }, 300);
     }, 5000);
 }
@@ -424,11 +308,6 @@ function showNotification(message, type = 'success') {
 // ANIMACIONES AL SCROLL (Intersection Observer)
 // ============================================
 
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -436,13 +315,10 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.style.transform = 'translateY(0)';
         }
     });
-}, observerOptions);
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-// Observar elementos para animación
 document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.service-card, .gallery-item');
-    
-    animateElements.forEach((el, index) => {
+    document.querySelectorAll('.service-card, .gallery-item').forEach((el, index) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
@@ -454,51 +330,34 @@ document.addEventListener('DOMContentLoaded', () => {
 // CURSOR PERSONALIZADO CON HOVER
 // ============================================
 (function() {
-    // Crear cursor personalizado
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
     document.body.appendChild(cursor);
-    
-    // Seguir el mouse con suavizado
-    let cursorX = 0;
-    let cursorY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    
+
+    let cursorX = 0, cursorY = 0, currentX = 0, currentY = 0;
+
     document.addEventListener('mousemove', (e) => {
         cursorX = e.clientX;
         cursorY = e.clientY;
     });
-    
+
     function animateCursor() {
-        // Suavizado del cursor (lerp)
         currentX += (cursorX - currentX) * 0.2;
         currentY += (cursorY - currentY) * 0.2;
-        
         cursor.style.left = currentX + 'px';
         cursor.style.top = currentY + 'px';
-        
         requestAnimationFrame(animateCursor);
     }
-    
+
     animateCursor();
-    
-    // Detectar elementos interactivos para hover
+
     function updateInteractiveElements() {
-        const interactiveElements = document.querySelectorAll('a, button, input, textarea, select, [href], [role="button"]');
-        
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-hover');
-            });
-            
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-hover');
-            });
+        document.querySelectorAll('a, button, input, textarea, select, [href], [role="button"]').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
         });
     }
-    
-    // Ejecutar cuando el DOM esté listo
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', updateInteractiveElements);
     } else {
@@ -511,17 +370,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 
 if (contactForm) {
-    const inputs = contactForm.querySelectorAll('input, textarea');
-    
-    inputs.forEach(input => {
-        input.addEventListener('blur', () => {
-            validateField(input);
-        });
-        
+    contactForm.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('blur', () => validateField(input));
         input.addEventListener('input', () => {
-            if (input.classList.contains('error')) {
-                validateField(input);
-            }
+            if (input.classList.contains('error')) validateField(input);
         });
     });
 }
@@ -530,30 +382,23 @@ function validateField(field) {
     const value = field.value.trim();
     let isValid = true;
     let errorMessage = '';
-    
-    // Remover mensajes de error previos
+
     const existingError = field.parentElement.querySelector('.error-message');
-    if (existingError) {
-        existingError.remove();
-    }
+    if (existingError) existingError.remove();
     field.classList.remove('error');
-    
-    // Validar campo requerido
+
     if (field.hasAttribute('required') && !value) {
         isValid = false;
         errorMessage = 'Este campo es obligatorio';
     }
-    
-    // Validar email
+
     if (field.type === 'email' && value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
             isValid = false;
             errorMessage = 'Por favor, introduce un email válido';
         }
     }
-    
-    // Mostrar error si existe
+
     if (!isValid) {
         field.classList.add('error');
         const errorElement = document.createElement('span');
@@ -565,7 +410,7 @@ function validateField(field) {
     } else {
         field.style.borderColor = '';
     }
-    
+
     return isValid;
 }
 
@@ -578,15 +423,14 @@ function validateField(field) {
     const prevBtn = document.getElementById('fleetCarouselPrev');
     const nextBtn = document.getElementById('fleetCarouselNext');
     const dotsContainer = document.getElementById('fleetCarouselDots');
-    
+
     if (!carousel || !track || !prevBtn || !nextBtn || !dotsContainer) return;
-    
+
     const slides = track.querySelectorAll('.fleet-carousel-slide');
     const totalSlides = slides.length;
     let currentIndex = 0;
     let isTransitioning = false;
-    
-    // Crear dots de navegación
+
     function createDots() {
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('button');
@@ -597,99 +441,45 @@ function validateField(field) {
             dotsContainer.appendChild(dot);
         }
     }
-    
-    // Actualizar posición del carrusel
+
     function updateCarousel() {
         if (isTransitioning) return;
         isTransitioning = true;
-        
-        const translateX = -currentIndex * 100;
-        track.style.transform = `translateX(${translateX}%)`;
-        
-        // Actualizar dots
-        const dots = dotsContainer.querySelectorAll('.fleet-carousel-dot');
-        dots.forEach((dot, index) => {
+        track.style.transform = `translateX(${-currentIndex * 100}%)`;
+        dotsContainer.querySelectorAll('.fleet-carousel-dot').forEach((dot, index) => {
             dot.classList.toggle('active', index === currentIndex);
         });
-        
-        // Los botones siempre están habilitados para loop infinito
-        // prevBtn.disabled = currentIndex === 0;
-        // nextBtn.disabled = currentIndex === totalSlides - 1;
-        
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 500);
+        setTimeout(() => { isTransitioning = false; }, 500);
     }
-    
-    // Ir a slide específico
+
     function goToSlide(index) {
         if (index < 0 || index >= totalSlides || isTransitioning) return;
         currentIndex = index;
         updateCarousel();
     }
-    
-    // Slide siguiente
+
     function nextSlide() {
-        if (currentIndex < totalSlides - 1) {
-            goToSlide(currentIndex + 1);
-        } else {
-            goToSlide(0); // Loop infinito
-        }
+        goToSlide(currentIndex < totalSlides - 1 ? currentIndex + 1 : 0);
     }
-    
-    // Slide anterior
+
     function prevSlide() {
-        if (currentIndex > 0) {
-            goToSlide(currentIndex - 1);
-        } else {
-            goToSlide(totalSlides - 1); // Loop infinito
-        }
+        goToSlide(currentIndex > 0 ? currentIndex - 1 : totalSlides - 1);
     }
-    
-    // Event listeners
+
     nextBtn.addEventListener('click', nextSlide);
     prevBtn.addEventListener('click', prevSlide);
-    
-    // Soporte para gestos táctiles (swipe)
+
     let touchStartX = 0;
-    let touchEndX = 0;
-    
     track.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
-    
     track.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
+        const diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? nextSlide() : prevSlide();
         }
-    }
-    
-    // Auto-play opcional (descomentar si se desea)
-    // let autoPlayInterval;
-    // function startAutoPlay() {
-    //     autoPlayInterval = setInterval(nextSlide, 5000);
-    // }
-    // function stopAutoPlay() {
-    //     clearInterval(autoPlayInterval);
-    // }
-    // 
-    // carousel.addEventListener('mouseenter', stopAutoPlay);
-    // carousel.addEventListener('mouseleave', startAutoPlay);
-    // startAutoPlay();
-    
-    // Inicializar
+    }, { passive: true });
+
     createDots();
     updateCarousel();
 })();

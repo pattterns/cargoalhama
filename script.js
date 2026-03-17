@@ -23,7 +23,7 @@ if (menuToggle && navMenu) {
     });
 
     // Cerrar menú al hacer clic en un enlace
-    const navLinks = navMenu.querySelectorAll('.nav-link');
+    const navLinks = navMenu.querySelectorAll('a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');

@@ -42,7 +42,10 @@
     box-sizing: border-box;
 }
 
-/* scroll-behavior: smooth eliminado - Lenis gestiona el smooth scroll */
+/* Scroll suave nativo para móvil (en escritorio lo gestiona Lenis) */
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     font-family: 'DM Mono', monospace;
