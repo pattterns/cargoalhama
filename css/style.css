@@ -2,6 +2,19 @@
    RESET Y VARIABLES - CARGO ALHAMA
    ============================================ */
 
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 :root {
     /* Paleta Corporativa Cargo Alhama - Escala de Grises */
     --primary-dark: #1a1a1a;
@@ -833,7 +846,9 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     flex-shrink: 0;
 }
 
-.service-header-numbered h3 {
+.service-header-numbered h3,
+.service-header-numbered .service-title-numbered,
+.service-header-numbered h2 {
     font-size: 1.25rem;
     color: var(--text-primary);
     font-weight: 700;
@@ -1368,7 +1383,8 @@ h1, h2, h3, .section-title, .hero-title, .hero-subtitle,
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 }
 
-.footer-contact-details h3 {
+.footer-contact-details h3,
+.footer-contact-details .footer-contact-label {
     font-size: 0.85rem;
     color: var(--gray-light);
     margin-bottom: 0.5rem;
