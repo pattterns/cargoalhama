@@ -61,6 +61,7 @@ permalink: /
 <!-- Sección Servicios -->
 <section id="servicios" class="services">
     <div class="container">
+        <h2 class="section-title">Servicios</h2>
         <div class="services-grid">
             <!-- Primeros dos servicios -->
             {% for service in services.services %}
@@ -68,7 +69,7 @@ permalink: /
             <div class="service-card service-numbered" id="servicio-{{ service.number }}">
                 <div class="service-header-numbered">
                     <div class="service-number">{{ service.number }}</div>
-                    <h2 class="service-title-numbered">{{ service.title }}</h2>
+                    <h3 class="service-title-numbered">{{ service.title }}</h3>
                 </div>
                 <div class="service-content-numbered">
                     <p>{{ service.description }}</p>
@@ -91,7 +92,7 @@ permalink: /
             <div class="service-card service-numbered">
                 <div class="service-header-numbered">
                     <div class="service-number">{{ service.number }}</div>
-                    <h2 class="service-title-numbered">{{ service.title }}</h2>
+                    <h3 class="service-title-numbered">{{ service.title }}</h3>
                 </div>
                 <div class="service-content-numbered">
                     <p>{{ service.description }}</p>
