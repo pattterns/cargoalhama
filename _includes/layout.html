@@ -110,7 +110,8 @@
         <div class="container">
             <div class="header-wrapper">
                 <div class="logo">
-                    <a href="#inicio">
+                    <h1 class="visually-hidden">{{ site.title }}</h1>
+                    <a href="#inicio" aria-label="{{ site.title }} - Inicio">
                         <picture>
                             <source srcset="/imagenes/webp/logo.webp" type="image/webp">
                             <img src="/imagenes/logo.png" alt="{{ site.title }}" class="logo-img" loading="eager">
@@ -151,6 +152,7 @@
 
     <!-- Footer -->
     <footer class="footer">
+        <h2 class="visually-hidden">Datos de contacto</h2>
         <div class="container">
             <div class="footer-contact-info">
                 <div class="footer-contact-item">
@@ -158,7 +160,7 @@
                         <span class="material-symbols-outlined">location_on</span>
                     </div>
                     <div class="footer-contact-details">
-                        <h3>DIRECCIÓN</h3>
+                        <p class="footer-contact-label">DIRECCIÓN</p>
                         <p>{{ site.address }}</p>
                     </div>
                 </div>
@@ -167,7 +169,7 @@
                         <span class="material-symbols-outlined">phone</span>
                     </div>
                     <div class="footer-contact-details">
-                        <h3>TELÉFONO</h3>
+                        <p class="footer-contact-label">TELÉFONO</p>
                         <p><a href="tel:{{ site.phone | replace(' ', '') }}">{{ site.phone }}</a></p>
                     </div>
                 </div>
@@ -176,7 +178,7 @@
                         <span class="material-symbols-outlined">mail</span>
                     </div>
                     <div class="footer-contact-details">
-                        <h3>EMAIL</h3>
+                        <p class="footer-contact-label">EMAIL</p>
                         <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
                     </div>
                 </div>
@@ -185,7 +187,7 @@
                         <span class="material-symbols-outlined">schedule</span>
                     </div>
                     <div class="footer-contact-details">
-                        <h3>HORARIO</h3>
+                        <p class="footer-contact-label">HORARIO</p>
                         <p>{{ site.schedule }}</p>
                     </div>
                 </div>

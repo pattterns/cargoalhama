@@ -45,7 +45,7 @@ permalink: /
 <!-- Sección Relume / Sobre Nosotros -->
 <section id="relume" class="relume-section">
     <div class="container relume-container">
-        <p class="relume-tagline">{{ about.tagline }}</p>
+        <h2 class="relume-tagline">{{ about.tagline }}</h2>
         <p class="relume-text">{{ about.text }}</p>
         <div class="relume-actions">
             <a href="#contacto" class="btn btn-normal-dark">Contactar</a>
@@ -68,7 +68,7 @@ permalink: /
             <div class="service-card service-numbered" id="servicio-{{ service.number }}">
                 <div class="service-header-numbered">
                     <div class="service-number">{{ service.number }}</div>
-                    <h3>{{ service.title }}</h3>
+                    <h2 class="service-title-numbered">{{ service.title }}</h2>
                 </div>
                 <div class="service-content-numbered">
                     <p>{{ service.description }}</p>
@@ -91,7 +91,7 @@ permalink: /
             <div class="service-card service-numbered">
                 <div class="service-header-numbered">
                     <div class="service-number">{{ service.number }}</div>
-                    <h3>{{ service.title }}</h3>
+                    <h2 class="service-title-numbered">{{ service.title }}</h2>
                 </div>
                 <div class="service-content-numbered">
                     <p>{{ service.description }}</p>
